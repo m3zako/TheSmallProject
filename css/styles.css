@@ -1,0 +1,149 @@
+body
+{
+	background-color: #0247FE;
+}
+
+p
+{
+	font-size: 20px;
+	text-align: center;
+	font-family: helvetica;
+	margin-right: 5%;
+}
+
+#title 
+{
+    font-size: 40px;
+    width: 100%;
+	margin: 2% 2.25%;
+    text-align: center;
+    font-family: verdana;
+    color: #A8E6FF;
+}
+
+#loginDiv
+{
+    font-size: 25px;
+    width: 70%;
+    margin-left: 15%;
+    padding: 25px;
+    background-color: #9ECADB;
+}
+
+#registerDiv
+{
+    font-size: 25px;
+    width: 70%;
+    margin-left: 15%;
+    padding: 25px;
+    background-color: #9ECADB;
+}
+
+.buttons
+{
+    font-size: 30px;
+    border-radius: 10px;
+    width: 25%;
+    margin-left: 36.5%;
+    font-family: helvetica;
+}
+
+.buttons:hover
+{
+    background-color: #110934;
+    color: #FFFFFF;
+    opacity: 75%;
+}
+
+#loginName
+{
+	font-size: 30px;
+}
+#loginPassword
+{
+	font-size: 30px;
+}
+
+#registerFirst
+{
+	font-size: 30px;
+}
+#registerLast
+{
+	font-size: 30px;
+}
+#registerName
+{
+	font-size: 30px;
+}
+#registerPassword
+{
+	font-size: 30px;
+}
+
+input[type="text"],input[type="password"]
+{
+    border-radius: 0px;
+    text-align: center;
+    width: 60%;
+    margin-left: 20%;
+    margin-bottom: 2%;
+    font-family: helvetica;
+}
+
+#inner-title
+{
+    display: inline-block;
+    font-size: 25px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: verdana;
+	font-weight: bold;
+    color: #110934;
+}
+
+#loginResult
+{
+    display: inline-block;
+    font-size: 15px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: verdana;
+	font-weight: bold;
+    color: #110934;
+}
+
+#registerResult
+{
+    display: inline-block;
+    font-size: 15px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: verdana;
+	font-weight: bold;
+    color: #110934;
+}
+
+#signInScreenButton
+{
+	font-size: 15px;
+    border-radius: 10px;
+    width: 10%;
+    font-family: helvetica;
+	margin-left: 5%;
+}
+
+#loginScreenButton
+{
+	font-size: 15px;
+    border-radius: 10px;
+    width: 10%;
+    font-family: helvetica;
+	margin-left: 5%;
+}
