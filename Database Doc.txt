@@ -1,0 +1,31 @@
+COP 4331C Group 19
+Database Documentation
+
+Database developer - Misael Salazar
+
+For our Contact Manager application, we set up a simple relational database on
+a DigitalOcean web server. The database contains two tables, one for Users and 
+one for Contacts. 
+
+The Users' table stores:
+- ID number generated for each user (Primary Key)
+- Date that the user's account was created
+- Date that the user last logged in
+- First name
+- Last name
+- Login (Username)
+- Password (Unhashed for the purposes of this project)
+
+The Contact's table stores:
+- ID number generated for each contact (Primary Key)
+- Name
+- Phone number
+- Email
+- UserID that associates a users and contacts (Foreign Key)
+
+Each individual user may be related to any number of contacts (ONE user may have
+zero, one, two, ... , any whole number of contacts). This is reflected in the
+entity-relationship diagram which shows the Users and Contacts tables related by 
+the user's ID and corresponding contact's UserID. The diagram shows that one user 
+may have zero or many related UserID's in the Contacts table.
+
