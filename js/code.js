@@ -17,7 +17,7 @@ function doLogin()
 	document.getElementById("loginResult").innerHTML = "";
 	
 	let tmp = {login:login,password:password};
-	let jsonPayload = JSON.stringify ( tmp );
+	let jsonPayload = JSON.stringify( tmp );
 	
 	let url = urlBase + '/Login.' + extension;
 	
@@ -46,7 +46,8 @@ function doLogin()
 				
 				window.location.href = "contacts.html";
 			}
-		}
+		};
+		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
