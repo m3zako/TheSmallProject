@@ -1,4 +1,5 @@
 <html>
+
 <head>
 	<title>Contacts</title>
 	<script type="text/javascript" src="js/code.js"></script>
@@ -11,7 +12,6 @@
 	}, false);
 	</script>
 </head>
-
 <body>
 
 <h1 id="title">Welcome!</h1>
@@ -27,6 +27,11 @@
 <div id="searchDiv">
 	<input type="text" id="searchBar" placeholder="Search Contacts..." />
 	<button type="button" id="searchButton" class="buttons" onclick="searchContact();"> Go! </button>
+	<span id="contactSearchResult"></span>
+</div>
+
+<div id="contactListDiv">
+	<p id="searchPrompt">Search to find your contacts.</p>
 </div>
 
 </body>
