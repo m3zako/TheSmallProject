@@ -227,7 +227,7 @@ input[type="text"],input[type="password"]
 #contactNameText
 {
 	font-size: 45px;
-	margin-right: 50%;
+	margin-right: 45%;
 	margin-top: -0.5%;
 	font-weight: bold;
 	font-family: Trebuchet MS;
@@ -237,10 +237,9 @@ input[type="text"],input[type="password"]
 {
 	font-size: 30px;
 	margin-right: 0%;
-	margin-top: -0.5%;
+	margin-top: -2%;
 	font-weight: bold;
 	font-family: Trebuchet MS;
-	display: inline-block;
 }
 #contactEmailText
 {
