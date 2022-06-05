@@ -115,7 +115,7 @@ function searchContact()
 				document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
 				let jsonObject = JSON.parse( xhr.responseText );
 				
-				for( let i=0; i<jsonObject.results.length(); i++ )
+				for( let i=0; i<jsonObject.results.length; i++ )
 				{
 					contactList += "<p id=\"contactNameText\">";
 					contactList += jsonObject.results[i].Name;
