@@ -98,7 +98,7 @@ function searchContact()
 	
 	let contactList = "";
 
-	let tmp = {search:srch,userId:userId};
+	let tmp = {search:srch,UserID:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/SearchContact.' + extension;
