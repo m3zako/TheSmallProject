@@ -98,7 +98,7 @@ function searchContact()
 	
 	let contactList = "";
 
-	let tmp = {search:srch,userId:userId};
+	let tmp = {search:srch,UserID:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/SearchContact.' + extension;
@@ -115,15 +115,21 @@ function searchContact()
 				document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
 				let jsonObject = JSON.parse( xhr.responseText );
 				
+				if (jsonObject.error == "No Records Found")
+				{
+					document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">No Records Found</p>";
+					return;
+				}
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{
+					contactList +="<div id=\"" + jsonObject.results[i].Name + "Div\">";
 					contactList += "<p id=\"contactNameText\">";
 					contactList += jsonObject.results[i].Name;
 					contactList += "</p><p id=\"contactPhoneText\">";
 					contactList += jsonObject.results[i].Phone;
 					contactList += "</p><p id=\"contactEmailText\">";
 					contactList += jsonObject.results[i].Email;
-					contactList += "</p><button type=\"button\" id=\"updateButton\" class=\"buttons\" onclick=\"updateContact(\'";
+					contactList += "</p><button type=\"button\" id=\"updateButton\" class=\"buttons\" onclick=\"updateContactSetup(\'";
 					contactList += jsonObject.results[i].Name;
 					contactList += "\',\'";
 					contactList += jsonObject.results[i].Phone;
@@ -136,6 +142,7 @@ function searchContact()
 					contactList += "\',\'";
 					contactList += jsonObject.results[i].Email;
 					contactList += "\');\"> Delete Contact </button>";
+					contactList +="</div>";
 					if( i < jsonObject.results.length - 1 )
 					{
 						contactList += "<hr>";
@@ -153,16 +160,183 @@ function searchContact()
 	}
 }
 
+function addAddContactForm()
+{
+	let contactFormHTML = "<div id=\"addContactForm\"><button type=\"button\" id=\"closeButton\" class=\"buttons\" onclick=\"closeContactForm();\"> X </button><span id=\"inner-title\">CREATE CONTACT</span><input type=\"text\" id=\"addName\" placeholder=\"Contact Name\" /><br /><input type=\"tel\" id=\"addPhone\" placeholder=\"Contact Phone\" /><br /><input type=\"email\" id=\"addEmail\" placeholder=\"Contact Email\" /><br /><button type=\"button\" id=\"addContactButton\" class=\"buttons\" onclick=\"addContact();\"> Add Contact </button><span id=\"addResult\"></span></div>";
+	if (document.getElementById("contactFormPlaceholder").innerHTML != contactFormHTML)
+	{
+		document.getElementById("contactFormPlaceholder").innerHTML = contactFormHTML;
+	}
+}
+
+function closeContactForm()
+{
+	document.getElementById("contactFormPlaceholder").innerHTML = "";
+}
+
 function addContact()
 {
+	let newName = document.getElementById("addName").value;
+	let newPhone = document.getElementById("addPhone").value;
+	let newEmail = document.getElementById("addEmail").value;
+	document.getElementById("addResult").innerHTML = "";
+	
+	let tmp = {Name:newName,Phone:newPhone,Email:newEmail,UserID:userId};
+	let jsonPayload = JSON.stringify( tmp );
+	
+	let url = urlBase + '/AddContact.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("addResult").innerHTML = "Contact added successfully.";
+				document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p>";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("addResult").innerHTML = err.message;
+	}
 }
 
 function deleteContact(delName, delPhone, delEmail)
 {
+	let deleteConfirmPrompt = "Are you sure you want to delete " + delName + " from your contacts?";
+	if (confirm(deleteConfirmPrompt))
+	{
+		let tmp = {Name:delName,UserID:userId};
+		let jsonPayload = JSON.stringify( tmp );
+	
+		let url = urlBase + '/DeleteContact.' + extension;
+		
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+		try
+		{
+			xhr.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+				{
+					window.alert("Contact deleted successfully.");
+					document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p>";
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+			document.getElementById("contactSearchResult").innerHTML = err.message;
+		}
+	}
+}
+
+function closeUpdateContactForm(upName, upPhone, upEmail)
+{
+	let elementString = upName + "Div";
+	let revertedHTML = "";
+	
+	revertedHTML += "<p id=\"contactNameText\">";
+	revertedHTML += upName;
+	revertedHTML += "</p><p id=\"contactPhoneText\">";
+	revertedHTML += upPhone;
+	revertedHTML += "</p><p id=\"contactEmailText\">";
+	revertedHTML += upEmail;
+	revertedHTML += "</p><button type=\"button\" id=\"updateButton\" class=\"buttons\" onclick=\"updateContactSetup(\'";
+	revertedHTML += upName;
+	revertedHTML += "\',\'";
+	revertedHTML += upPhone;
+	revertedHTML += "\',\'";
+	revertedHTML += upEmail;
+	revertedHTML += "\');\"> Update Contact </button><button type=\"button\" id=\"deleteButton\" class=\"buttons\" onclick=\"deleteContact(\'";
+	revertedHTML += upName;
+	revertedHTML += "\',\'";
+	revertedHTML += upPhone;
+	revertedHTML += "\',\'";
+	revertedHTML += upEmail;
+	revertedHTML += "\');\"> Delete Contact </button>";
+	
+	document.getElementById(elementString).innerHTML = revertedHTML;
+}
+
+function updateContactSetup(upName, upPhone, upEmail)
+{
+	let elementString = upName + "Div";
+	let updateHTML = "";
+	
+	updateHTML += "<button type=\"button\" id=\"closeUpdateButton\" class=\"buttons\" onclick=\"closeUpdateContactForm(\'";
+	updateHTML += upName;
+	updateHTML += "\', \'";
+	updateHTML += upPhone;
+	updateHTML += "\', \'";
+	updateHTML += upEmail;
+	updateHTML += "\');\"> X </button><span id=\"inner-title\">UPDATE ";
+	updateHTML += upName;
+	updateHTML += "</span><input type=\"tel\" id=\"updatePhone";
+	updateHTML += upName;
+	updateHTML += "\" placeholder=\"Contact Phone\" value=\"";
+	updateHTML += upPhone;
+	updateHTML += "\" class=\"updatePhone\"/><br /><input type=\"email\" id=\"updateEmail";
+	updateHTML += upName;
+	updateHTML += "\" placeholder=\"Contact Email\" value=\"";
+	updateHTML += upEmail;
+	updateHTML += "\" class=\"updateEmail\"/><br /><button type=\"button\" id=\"updateContactButton\" class=\"buttons\" onclick=\"updateContact(\'";
+	updateHTML += upName;
+	updateHTML += "\', \'";
+	updateHTML += upPhone;
+	updateHTML += "\', \'";
+	updateHTML += upEmail;
+	updateHTML += "\');\"> Update Contact </button><span id=\"updateResult";
+	updateHTML += upName;
+	updateHTML += "\" class=\"updateResult\"></span>";
+	
+	document.getElementById(elementString).innerHTML = updateHTML;
 }
 
 function updateContact(upName, upPhone, upEmail)
 {
+	let contactUpdateResultString = "updateResult" + upName;
+	document.getElementById(contactUpdateResultString).innerHTML = "";
+	
+	let contactUpdatePhoneString = "updatePhone" + upName;
+	
+	let contactUpdateEmailString = "updateEmail" + upName;
+	
+	let newPhone = document.getElementById(contactUpdatePhoneString).value;
+	let newEmail = document.getElementById(contactUpdateEmailString).value;
+	
+	let tmp = {Name:upName,Phone:newPhone,Email:newEmail,UserID:userId};
+	let jsonPayload = JSON.stringify( tmp );
+	
+	let url = urlBase + '/UpdateContact.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p><span id=\"updateResult\"></span>";
+				document.getElementById("updateResult").innerHTML = "Contact updated successfully."
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById(contactUpdateResultString).innerHTML = err.message;
+	}
 }
 
 function switchToRegister()
@@ -212,7 +386,7 @@ function readCookie()
 	}
 	else
 	{
-		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+		document.getElementById("title").innerHTML = "Welcome," + " " + firstName + " " + lastName + "!";
 	}
 }
 

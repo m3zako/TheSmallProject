@@ -90,7 +90,7 @@ hr
 	font-size: 30px;
 }
 
-input[type="text"],input[type="password"]
+input[type="text"],input[type="password"],input[type="tel"],input[type="email"]
 {
     border-radius: 0px;
     text-align: center;
@@ -227,7 +227,7 @@ input[type="text"],input[type="password"]
 #contactNameText
 {
 	font-size: 45px;
-	margin-right: 50%;
+	margin-right: 45%;
 	margin-top: -0.5%;
 	font-weight: bold;
 	font-family: Trebuchet MS;
@@ -237,10 +237,9 @@ input[type="text"],input[type="password"]
 {
 	font-size: 30px;
 	margin-right: 0%;
-	margin-top: -0.5%;
+	margin-top: -2%;
 	font-weight: bold;
 	font-family: Trebuchet MS;
-	display: inline-block;
 }
 #contactEmailText
 {
@@ -277,4 +276,107 @@ input[type="text"],input[type="password"]
 	margin-right: 0%;
 	font-weight: bold;
 	font-family: Trebuchet MS;
+}
+
+#addContactForm
+{
+  width: 70%;
+  margin-left: 15%;
+  padding: 25px;
+  background-color: #9ECADB;
+  margin-bottom: 2.5%;
+}
+
+#closeButton
+{
+	font-size: 20px;
+    border-radius: 0px;
+	font-weight: bold;
+	color: white;
+	background-color: red;
+    width: 5%;
+    font-family: helvetica;
+	margin-left: 95%;
+}
+
+#closeButton:hover
+{
+	font-size: 20px;
+    border-radius: 0px;
+	font-weight: bold;
+	color: red;
+	background-color: white;
+    width: 5%;
+    font-family: helvetica;
+	margin-left: 95%;
+}
+
+#addName
+{
+	font-size: 30px;
+}
+#addPhone
+{
+	font-size: 30px;
+}
+#addEmail
+{
+	font-size: 30px;
+}
+#addResult
+{
+    display: inline-block;
+    font-size: 15px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: verdana;
+	font-weight: bold;
+    color: #110934;
+}
+
+#closeUpdateButton
+{
+	font-size: 20px;
+    border-radius: 0px;
+	font-weight: bold;
+	color: white;
+	background-color: red;
+    width: 5%;
+    font-family: helvetica;
+	margin-left: 95%;
+}
+
+#closeUpdateButton:hover
+{
+	font-size: 20px;
+    border-radius: 0px;
+	font-weight: bold;
+	color: red;
+	background-color: white;
+    width: 5%;
+    font-family: helvetica;
+	margin-left: 95%;
+}
+
+.updateEmail
+{
+	font-size: 30px;
+}
+.updatePhone
+{
+	font-size: 30px;
+}
+#updateResult
+{
+    display: inline-block;
+    font-size: 15px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: verdana;
+	font-weight: bold;
+    color: #110934;
 }
