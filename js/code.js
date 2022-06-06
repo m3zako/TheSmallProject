@@ -158,12 +158,83 @@ function searchContact()
 	}
 }
 
+function addAddContactForm()
+{
+	let contactFormHTML = "<div id=\"addContactForm\"><button type=\"button\" id=\"closeButton\" class=\"buttons\" onclick=\"closeContactForm();\"> X </button><span id=\"inner-title\">CREATE CONTACT</span><input type=\"text\" id=\"addName\" placeholder=\"Contact Name\" /><br /><input type=\"tel\" id=\"addPhone\" placeholder=\"Contact Phone\" /><br /><input type=\"email\" id=\"addEmail\" placeholder=\"Contact Email\" /><br /><button type=\"button\" id=\"addContactButton\" class=\"buttons\" onclick=\"addContact();\"> Add Contact </button><span id=\"addResult\"></span></div>";
+	if (document.getElementById("contactFormPlaceholder").innerHTML != contactFormHTML)
+	{
+		document.getElementById("contactFormPlaceholder").innerHTML = contactFormHTML;
+	}
+}
+
+function closeContactForm()
+{
+	document.getElementById("contactFormPlaceholder").innerHTML = "";
+}
+
 function addContact()
 {
+	let newName = document.getElementById("addName").value;
+	let newPhone = document.getElementById("addPhone").value;
+	let newEmail = document.getElementById("addEmail").value;
+	document.getElementById("addResult").innerHTML = "";
+	
+	let tmp = {Name:newName,Phone:newPhone,Email:newEmail,UserID:userId};
+	let jsonPayload = JSON.stringify( tmp );
+	
+	let url = urlBase + '/AddContact.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("addResult").innerHTML = "Contact added successfully.";
+				document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p>";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("addResult").innerHTML = err.message;
+	}
 }
 
 function deleteContact(delName, delPhone, delEmail)
 {
+	let deleteConfirmPrompt = "Are you sure you want to delete " + delName + " from your contacts?";
+	if (confirm(deleteConfirmPrompt))
+	{
+		let tmp = {Name:delName,UserID:userId};
+		let jsonPayload = JSON.stringify( tmp );
+	
+		let url = urlBase + '/DeleteContact.' + extension;
+		
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+		try
+		{
+			xhr.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+				{
+					window.alert("Contact deleted successfully.");
+					document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p>";
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+			document.getElementById("contactSearchResult").innerHTML = err.message;
+		}
+	}
 }
 
 function updateContact(upName, upPhone, upEmail)
