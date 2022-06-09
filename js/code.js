@@ -12,19 +12,7 @@ function doLogin()
 	lastName = "";
 	
 	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;
-	
-	if (login == "")
-	{
-		document.getElementById("loginResult").innerHTML = "Please enter your login.";
-		return;
-	}
-	else if (password == "")
-	{
-		document.getElementById("loginResult").innerHTML = "Please enter your password.";
-		return;
-	}
-				
+	let password = document.getElementById("loginPassword").value;			
 	
 	document.getElementById("loginResult").innerHTML = "";
 	
@@ -74,27 +62,6 @@ function doRegister()
 	let newLogin = document.getElementById("registerName").value;
 	let newPassword = document.getElementById("registerPassword").value;
 	document.getElementById("registerResult").innerHTML = "";
-	
-	if (newFirstName == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter a first name.";
-		return;
-	}
-	else if (newLastName == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter a last name.";
-		return;
-	}
-	else if (newLogin == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter a login.";
-		return;
-	}
-	else if (newPassword == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter a password.";
-		return;
-	}
 	
 	let tmp = {FirstName:newFirstName,LastName:newLastName,Login:newLogin,Password:newPassword};
 	let jsonPayload = JSON.stringify( tmp );
@@ -213,22 +180,6 @@ function addContact()
 	let newPhone = document.getElementById("addPhone").value;
 	let newEmail = document.getElementById("addEmail").value;
 	document.getElementById("addResult").innerHTML = "";
-	
-	if (newName == "")
-	{
-		document.getElementById("addResult").innerHTML = "Please enter a name.";
-		return;
-	}
-	else if (newPhone == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter a phone number.";
-		return;
-	}
-	else if (newEmail == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter an email.";
-		return;
-	}
 	
 	let tmp = {Name:newName,Phone:newPhone,Email:newEmail,UserID:userId};
 	let jsonPayload = JSON.stringify( tmp );
@@ -361,17 +312,6 @@ function updateContact(upName, upPhone, upEmail)
 	
 	let newPhone = document.getElementById(contactUpdatePhoneString).value;
 	let newEmail = document.getElementById(contactUpdateEmailString).value;
-	
-	else if (newPhone == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter a phone number.";
-		return;
-	}
-	else if (newEmail == "")
-	{
-		document.getElementById("registerResult").innerHTML = "Please enter an email.";
-		return;
-	}
 	
 	let tmp = {Name:upName,Phone:newPhone,Email:newEmail,UserID:userId};
 	let jsonPayload = JSON.stringify( tmp );
