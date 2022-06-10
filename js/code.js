@@ -15,7 +15,7 @@ function doLogin()
 	
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
-	var hash = md5( password );
+	var hash = sha256( password );
 	
 	if( login == "" )
 	{
@@ -107,7 +107,7 @@ function doRegister()
 		return;
 	}
 	
-	var hash = md5( newPassword );
+	var hash = sha256( newPassword );
 	
 	let tmp = {FirstName:newFirstName,LastName:newLastName,Login:newLogin,Password:hash};
 	
