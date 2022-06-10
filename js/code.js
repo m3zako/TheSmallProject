@@ -10,13 +10,31 @@ function doLogin()
 	userId = 0;
 	firstName = "";
 	lastName = "";
+	var validation = true;
+	document.getElementById("loginResult").innerHTML = "";
 	
 	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;			
+	let password = document.getElementById("loginPassword").value;
+	var hash = md5( password );
+	
+	if( login == "" )
+	{
+		document.getElementById("loginResult").innerHTML += "Please enter a username. <br>";
+		validation = false;
+	}
+	if( password == "" )
+	{
+		document.getElementById("loginResult").innerHTML += "Please enter a password.";
+		validation = false;
+	}
+	if(validation == false)
+	{
+		return;
+	}
 	
 	document.getElementById("loginResult").innerHTML = "";
 	
-	let tmp = {login:login,password:password};
+	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify( tmp );
 	
 	let url = urlBase + '/Login.' + extension;
@@ -62,8 +80,37 @@ function doRegister()
 	let newLogin = document.getElementById("registerName").value;
 	let newPassword = document.getElementById("registerPassword").value;
 	document.getElementById("registerResult").innerHTML = "";
+	validation = true;
 	
-	let tmp = {FirstName:newFirstName,LastName:newLastName,Login:newLogin,Password:newPassword};
+	if (newFirstName == "")
+	{
+		document.getElementById("registerResult").innerHTML += "Please enter a first name. <br>";
+		validation = false;
+	}
+	if (newLastName == "")
+	{
+		document.getElementById("registerResult").innerHTML += "Please enter a last name. <br>";
+		validation = false;
+	}
+	if (newLogin == "")
+	{
+		document.getElementById("registerResult").innerHTML += "Please enter a username. <br>";
+		validation = false;
+	}
+	if (newPassword == "")
+	{
+		document.getElementById("registerResult").innerHTML += "Please enter a password. <br>";
+		validation = false;
+	}
+	if (validation == false)
+	{
+		return;
+	}
+	
+	var hash = md5( newPassword );
+	
+	let tmp = {FirstName:newFirstName,LastName:newLastName,Login:newLogin,Password:hash};
+	
 	let jsonPayload = JSON.stringify( tmp );
 	
 	let url = urlBase + '/Register.' + extension;
@@ -174,12 +221,63 @@ function closeContactForm()
 	document.getElementById("contactFormPlaceholder").innerHTML = "";
 }
 
+function isPhoneNumber(phoneNo)
+{
+	var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+	if(phoneNo.match(phoneno))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function isEmail(emailAddress)
+{
+	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	if(emailAddress.match(mailformat))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 function addContact()
 {
 	let newName = document.getElementById("addName").value;
 	let newPhone = document.getElementById("addPhone").value;
 	let newEmail = document.getElementById("addEmail").value;
 	document.getElementById("addResult").innerHTML = "";
+	var validation = true;
+	
+	if (newName == "")
+	{
+		document.getElementById("addResult").innerHTML += "Please enter a name. <br>";
+		validation = false;
+	}
+	
+	if (isPhoneNumber(newPhone) == false)
+	{
+		document.getElementById("addResult").innerHTML += "Please enter a valid phone number. (e.g. 123-456-7890) <br>";
+		validation = false;
+	}
+	
+	if (isEmail(newEmail) == false)
+	{
+		document.getElementById("addResult").innerHTML += "Please enter a valid email address. (e.g. someone@example.com)";
+		validation = false;
+	}
+	
+	if (validation == false)
+	{
+		return;
+	}
 	
 	let tmp = {Name:newName,Phone:newPhone,Email:newEmail,UserID:userId};
 	let jsonPayload = JSON.stringify( tmp );
@@ -305,6 +403,7 @@ function updateContact(upName, upPhone, upEmail)
 {
 	let contactUpdateResultString = "updateResult" + upName;
 	document.getElementById(contactUpdateResultString).innerHTML = "";
+	var validation = true;
 	
 	let contactUpdatePhoneString = "updatePhone" + upName;
 	
@@ -312,6 +411,21 @@ function updateContact(upName, upPhone, upEmail)
 	
 	let newPhone = document.getElementById(contactUpdatePhoneString).value;
 	let newEmail = document.getElementById(contactUpdateEmailString).value;
+	
+	if (isPhoneNumber(newPhone) == false)
+	{
+		document.getElementById(contactUpdateResultString).innerHTML += "Please enter a valid phone number. (e.g. 123-456-7890) <br>";
+		validation = false;
+	}
+	if (isEmail(newEmail) == false)
+	{
+		document.getElementById(contactUpdateResultString).innerHTML += "Please enter a valid email address. (e.g. someone@example.com)";
+		validation = false;
+	}
+	if (validation == false)
+	{
+		return;
+	}
 	
 	let tmp = {Name:upName,Phone:newPhone,Email:newEmail,UserID:userId};
 	let jsonPayload = JSON.stringify( tmp );
@@ -328,7 +442,7 @@ function updateContact(upName, upPhone, upEmail)
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p><span id=\"updateResult\"></span>";
-				document.getElementById("updateResult").innerHTML = "Contact updated successfully."
+				document.getElementById("updateResult").innerHTML = "Contact updated successfully.";
 			}
 		};
 		xhr.send(jsonPayload);
