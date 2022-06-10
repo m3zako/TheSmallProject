@@ -137,9 +137,6 @@ function doRegister()
 
 function searchContact()
 {
-	// let contactList = "<p id=\"contactNameText\">Contact Name</p><p id=\"contactPhoneText\">123-456-7890</p><p id=\"contactEmailText\">contactname@cop-4331-19.live</p><button type=\"button\" id=\"updateButton\" class=\"buttons\" onclick=\"updateContact(\'contactName\',\'contactPhone\',\'contactEmail\');\"> Update Contact </button><button type=\"button\" id=\"deleteButton\" class=\"buttons\" onclick=\"deleteContact(\'contactName\',\'contactPhone\',\'contactEmail\');\"> Delete Contact </button>";
-	// document.getElementById("contactListDiv").innerHTML = contactList;
-
 	let srch = document.getElementById("searchBar").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
 	
