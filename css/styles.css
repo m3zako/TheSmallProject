@@ -380,3 +380,15 @@ input[type="text"],input[type="password"],input[type="tel"],input[type="email"]
 	font-weight: bold;
     color: #110934;
 }
+.updateResult
+{
+    display: inline-block;
+    font-size: 15px;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    font-family: verdana;
+	font-weight: bold;
+    color: #110934;
+}
