@@ -164,9 +164,10 @@ function searchContact()
 					document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">No Records Found</p>";
 					return;
 				}
+                
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{
-					contactList +="<div id=\"" + jsonObject.results[i].Name + "Div\">";
+					contactList +="<div id=\"" + jsonObject.results[i].ID + "Div\">";
 					contactList += "<p id=\"contactNameText\">";
 					contactList += jsonObject.results[i].Name;
 					contactList += "</p><p id=\"contactPhoneText\">";
@@ -179,13 +180,17 @@ function searchContact()
 					contactList += jsonObject.results[i].Phone;
 					contactList += "\',\'";
 					contactList += jsonObject.results[i].Email;
-					contactList += "\');\"> Update Contact </button><button type=\"button\" id=\"deleteButton\" class=\"buttons\" onclick=\"deleteContact(\'";
+					contactList += "\',";
+					contactList += jsonObject.results[i].ID;
+					contactList += ");\"> Update Contact </button><button type=\"button\" id=\"deleteButton\" class=\"buttons\" onclick=\"deleteContact(\'";
 					contactList += jsonObject.results[i].Name;
 					contactList += "\',\'";
 					contactList += jsonObject.results[i].Phone;
 					contactList += "\',\'";
 					contactList += jsonObject.results[i].Email;
-					contactList += "\');\"> Delete Contact </button>";
+					contactList += "\',";
+					contactList += jsonObject.results[i].ID;
+					contactList += ");\"> Delete Contact </button>";
 					contactList +="</div>";
 					if( i < jsonObject.results.length - 1 )
 					{
@@ -206,7 +211,7 @@ function searchContact()
 
 function addAddContactForm()
 {
-	let contactFormHTML = "<div id=\"addContactForm\"><button type=\"button\" id=\"closeButton\" class=\"buttons\" onclick=\"closeContactForm();\"> X </button><span id=\"inner-title\">CREATE CONTACT</span><input type=\"text\" id=\"addName\" placeholder=\"Contact Name\" /><br /><input type=\"tel\" id=\"addPhone\" placeholder=\"Contact Phone\" /><br /><input type=\"email\" id=\"addEmail\" placeholder=\"Contact Email\" /><br /><button type=\"button\" id=\"addContactButton\" class=\"buttons\" onclick=\"addContact();\"> Add Contact </button><span id=\"addResult\"></span></div>";
+	let contactFormHTML = "<div id=\"addContactForm\"><button type=\"button\" id=\"closeButton\" class=\"buttons\" onclick=\"closeContactForm();\"> X </button><h1 id=\"newContactTitle\">CONTACT INFORMATION</h1><input type=\"text\" id=\"addName\" placeholder=\"Name\" /><br /><input type=\"tel\" id=\"addPhone\" placeholder=\"Phone\" /><br /><input type=\"email\" id=\"addEmail\" placeholder=\"Email\" /><br /><button type=\"button\" id=\"addContactButton\" class=\"buttons\" onclick=\"addContact();\"> Add Contact </button><span id=\"addResult\"></span></div>";
 	if (document.getElementById("contactFormPlaceholder").innerHTML != contactFormHTML)
 	{
 		document.getElementById("contactFormPlaceholder").innerHTML = contactFormHTML;
@@ -290,8 +295,8 @@ function addContact()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				document.getElementById("contactListDiv").innerHTML = "";
 				document.getElementById("addResult").innerHTML = "Contact added successfully.";
-				document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p>";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -302,12 +307,12 @@ function addContact()
 	}
 }
 
-function deleteContact(delName, delPhone, delEmail)
+function deleteContact(delName, delPhone, delEmail, delID)
 {
 	let deleteConfirmPrompt = "Are you sure you want to delete " + delName + " from your contacts?";
 	if (confirm(deleteConfirmPrompt))
 	{
-		let tmp = {Name:delName,UserID:userId};
+		let tmp = {ID:delID};
 		let jsonPayload = JSON.stringify( tmp );
 	
 		let url = urlBase + '/DeleteContact.' + extension;
@@ -322,7 +327,7 @@ function deleteContact(delName, delPhone, delEmail)
 				if (this.readyState == 4 && this.status == 200) 
 				{
 					window.alert("Contact deleted successfully.");
-					document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p>";
+					document.getElementById("contactListDiv").innerHTML = "";
 				}
 			};
 			xhr.send(jsonPayload);
@@ -334,9 +339,9 @@ function deleteContact(delName, delPhone, delEmail)
 	}
 }
 
-function closeUpdateContactForm(upName, upPhone, upEmail)
+function closeUpdateContactForm(upName, upPhone, upEmail, upID)
 {
-	let elementString = upName + "Div";
+	let elementString = upID + "Div";
 	let revertedHTML = "";
 	
 	revertedHTML += "<p id=\"contactNameText\">";
@@ -351,20 +356,24 @@ function closeUpdateContactForm(upName, upPhone, upEmail)
 	revertedHTML += upPhone;
 	revertedHTML += "\',\'";
 	revertedHTML += upEmail;
-	revertedHTML += "\');\"> Update Contact </button><button type=\"button\" id=\"deleteButton\" class=\"buttons\" onclick=\"deleteContact(\'";
+	revertedHTML += "\',";
+	revertedHTML += upID;
+	revertedHTML += ");\"> Update Contact </button><button type=\"button\" id=\"deleteButton\" class=\"buttons\" onclick=\"deleteContact(\'";
 	revertedHTML += upName;
 	revertedHTML += "\',\'";
 	revertedHTML += upPhone;
 	revertedHTML += "\',\'";
 	revertedHTML += upEmail;
-	revertedHTML += "\');\"> Delete Contact </button>";
+	revertedHTML += "\',";
+	revertedHTML += upID;
+	revertedHTML += ");\"> Delete Contact </button>";
 	
 	document.getElementById(elementString).innerHTML = revertedHTML;
 }
 
-function updateContactSetup(upName, upPhone, upEmail)
+function updateContactSetup(upName, upPhone, upEmail, upID)
 {
-	let elementString = upName + "Div";
+	let elementString = upID + "Div";
 	let updateHTML = "";
 	
 	updateHTML += "<button type=\"button\" id=\"closeUpdateButton\" class=\"buttons\" onclick=\"closeUpdateContactForm(\'";
@@ -373,14 +382,18 @@ function updateContactSetup(upName, upPhone, upEmail)
 	updateHTML += upPhone;
 	updateHTML += "\', \'";
 	updateHTML += upEmail;
-	updateHTML += "\');\"> X </button><span id=\"inner-title\">UPDATE ";
+	updateHTML += "\',";
+	updateHTML += upID;
+	updateHTML += ");\"> X </button><h1 id=\"inner-title\">UPDATE CONTACT</h1><input type=\"text\" id=\"updateName";
+	updateHTML += upID;
+	updateHTML += "\" placeholder=\"Contact Name\" value=\"";
 	updateHTML += upName;
-	updateHTML += "</span><input type=\"tel\" id=\"updatePhone";
-	updateHTML += upName;
+	updateHTML += "\" class=\"updateName\"/><br /><input type=\"tel\" id=\"updatePhone";
+	updateHTML += upID;
 	updateHTML += "\" placeholder=\"Contact Phone\" value=\"";
 	updateHTML += upPhone;
 	updateHTML += "\" class=\"updatePhone\"/><br /><input type=\"email\" id=\"updateEmail";
-	updateHTML += upName;
+	updateHTML += upID;
 	updateHTML += "\" placeholder=\"Contact Email\" value=\"";
 	updateHTML += upEmail;
 	updateHTML += "\" class=\"updateEmail\"/><br /><button type=\"button\" id=\"updateContactButton\" class=\"buttons\" onclick=\"updateContact(\'";
@@ -389,26 +402,38 @@ function updateContactSetup(upName, upPhone, upEmail)
 	updateHTML += upPhone;
 	updateHTML += "\', \'";
 	updateHTML += upEmail;
-	updateHTML += "\');\"> Update Contact </button><span id=\"updateResult";
-	updateHTML += upName;
+	updateHTML += "\',";
+	updateHTML += upID;
+	updateHTML += ");\"> Update Contact </button><span id=\"updateResult";
+	updateHTML += upID;
 	updateHTML += "\" class=\"updateResult\"></span>";
 	
 	document.getElementById(elementString).innerHTML = updateHTML;
 }
 
-function updateContact(upName, upPhone, upEmail)
+function updateContact(upName, upPhone, upEmail, upID)
 {
-	let contactUpdateResultString = "updateResult" + upName;
+	let contactUpdateResultString = "updateResult" + upID;
+	
 	document.getElementById(contactUpdateResultString).innerHTML = "";
+	document.getElementById("contactSearchResult").innerHTML = "";
 	var validation = true;
 	
-	let contactUpdatePhoneString = "updatePhone" + upName;
+	let contactUpdateNameString = "updateName" + upID;
 	
-	let contactUpdateEmailString = "updateEmail" + upName;
+	let contactUpdatePhoneString = "updatePhone" + upID;
 	
+	let contactUpdateEmailString = "updateEmail" + upID;
+	
+	let newName = document.getElementById(contactUpdateNameString).value;
 	let newPhone = document.getElementById(contactUpdatePhoneString).value;
 	let newEmail = document.getElementById(contactUpdateEmailString).value;
 	
+	if (newName == "")
+	{
+		document.getElementById(contactUpdateResultString).innerHTML += "Please enter a name.";
+		validation = false;
+	}
 	if (isPhoneNumber(newPhone) == false)
 	{
 		document.getElementById(contactUpdateResultString).innerHTML += "Please enter a valid phone number. (e.g. 123-456-7890) <br>";
@@ -424,7 +449,7 @@ function updateContact(upName, upPhone, upEmail)
 		return;
 	}
 	
-	let tmp = {Name:upName,Phone:newPhone,Email:newEmail,UserID:userId};
+	let tmp = {Name:newName,Phone:newPhone,Email:newEmail,ID:upID};
 	let jsonPayload = JSON.stringify( tmp );
 	
 	let url = urlBase + '/UpdateContact.' + extension;
@@ -438,8 +463,8 @@ function updateContact(upName, upPhone, upEmail)
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("contactListDiv").innerHTML = "<p id=\"searchPrompt\">Search to find your contacts.</p><span id=\"updateResult\"></span>";
-				document.getElementById("updateResult").innerHTML = "Contact updated successfully.";
+				document.getElementById("contactListDiv").innerHTML = "";
+				document.getElementById("contactSearchResult").innerHTML = "Contact updated successfully.";
 			}
 		};
 		xhr.send(jsonPayload);
