@@ -1,41 +1,43 @@
 <html>
 
 <head>
-	<title>Contacts</title>
-	<script type="text/javascript" src="js/code.js"></script>
-	<link href="css/styles.css" rel="stylesheet">
-	
-	<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function() 
-	{
-		readCookie();
-	}, false);
-	</script>
+    <title>Contacts</title>
+    <script type="text/javascript" src="js/code.js"></script>
+    <link href="css/styles.css" rel="stylesheet">
+    
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        readCookie();
+    }, false);
+    </script>
 </head>
 <body>
+    
+    <div id="logoutDiv">
+        <button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Logout </button>
+    </div>
 
-<h1 id="title">Welcome!</h1>
+<h1 id="title">WELCOME!</h1>
 
+
+<p id="addPrompt">CREATE NEW CONTACT</p>
+<button type="button" id="addButton" class="buttons" onclick="addAddContactForm();"> Add </button>
 <div id="addContactsDiv">
-	<button type="button" id="addButton" class="buttons" onclick="addAddContactForm();"> Add Contact </button>
+    
 </div>
-
-<div id="logoutDiv">
-	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Logout </button>
-</div>
-
 <div id="contactFormPlaceholder">
-	
 </div>
 
 <div id="searchDiv">
-	<input type="text" id="searchBar" placeholder="Search Contacts..." />
-	<button type="button" id="searchButton" class="buttons" onclick="searchContact();"> Go! </button>
-	<span id="contactSearchResult"></span>
+    
+    <p id="searchPrompt">SEARCH TO VIEW CONTACTS</p>
+    <input type="text" id="searchBar" placeholder="Search" />
+    <button type="button" id="searchButton" class="buttons" onclick="searchContact();"> Go! </button>
+    <span id="contactSearchResult"></span>
 </div>
 
 <div id="contactListDiv">
-	<p id="searchPrompt">Search to find your contacts.</p>
 </div>
 
 </body>

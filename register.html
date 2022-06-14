@@ -1,5 +1,9 @@
 <html>
 <head>
+    
+    
+<button type="button" id="loginScreenButton" class="buttons" onclick="switchToLogin();"> Sign In </button></p>
+    
 	<title>Register</title>
 	<script type="text/javascript" src="js/sha256.js"></script>
 	<script type="text/javascript" src="js/code.js"></script>
@@ -8,18 +12,15 @@
 
 <body>
 
-<h1 id="title">Register</h1>
+<h1 id="title">REGISTER</h1>
+<h1 id="inner-title">CREATE ACCOUNT</h1>
 
-<div id="registerDiv">
-	<span id="inner-title">CREATE ACCOUNT</span>
-	<input type="text" id="registerFirst" placeholder="First Name" /><br />
-	<input type="text" id="registerLast" placeholder="Last Name" /><br />
-	<input type="text" id="registerName" placeholder="Username" /><br />
-	<input type="password" id="registerPassword" placeholder="Password"/><br />
-	<button type="button" id="registerButton" class="buttons" onclick="doRegister();"> Sign Up </button>
-	<span id="registerResult"></span>
-	<p>Already have an account?<button type="button" id="loginScreenButton" class="buttons" onclick="switchToLogin();"> Sign In </button></p>
-</div>
+<input type="text" id="registerFirst" placeholder="First Name" /><br />
+<input type="text" id="registerLast" placeholder="Last Name" /><br />
+<input type="text" id="registerName" placeholder="Username" /><br />
+<input type="password" id="registerPassword" placeholder="Password"/><br />
+<button type="button" id="registerButton" class="buttons" onclick="doRegister();"> Sign Up </button>
+<span id="registerResult"></span>
 
 </body>
 </html>
