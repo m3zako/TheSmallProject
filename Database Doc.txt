@@ -14,7 +14,7 @@ The Users' table stores:
 - First name
 - Last name
 - Login (Username)
-- Password (Unhashed for the purposes of this project)
+- Password
 
 The Contact's table stores:
 - ID number generated for each contact (Primary Key)
