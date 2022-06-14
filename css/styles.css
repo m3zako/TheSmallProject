@@ -397,8 +397,7 @@ font-size: 25px;
 {
 	font-size: 20px;
     border-radius: 0px;
-    width: 5%;
-	margin-left: 95%;
+	margin-left: 93.5%;
 }
 
 #updateContactButton
@@ -452,9 +451,8 @@ font-size: 25px;
 	font-size: 20px;
     border-radius: 0px;
 	font-weight: bold;
-    width: 5%;
     font-family: helvetica;
-	margin-left: 95%;
+	margin-left: 93.5%;
 }
 
 .updateName
